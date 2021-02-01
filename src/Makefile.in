@@ -17,8 +17,8 @@ COMPILER = g++
 
 libname = liblifehash.a
 
-.PHONY: all liblifehash
-all liblifehash: $(libname)
+.PHONY: all lib
+all lib: $(libname)
 
 OBJS = \
 	bit-aggregator.o \
@@ -68,7 +68,7 @@ grid.hpp: color.hpp point.hpp size.hpp
 
 hsb-color.o: color.hpp numeric.hpp
 
-lifehash.o: \
+liblifehash.o: \
     cell-grid.hpp \
     change-grid.hpp \
     color-grid.hpp \

@@ -18,7 +18,7 @@ export LDFLAGS="${TARGET_OPT} -lstdc++"
 
 configure()
 (
-    ./configure --prefix=${PREFIX}
+    ./configure --prefix=${PREFIX:-/usr/local}
 )
 
 clean()

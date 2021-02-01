@@ -10,7 +10,7 @@
 package = @PACKAGE_NAME@
 version = @PACKAGE_VERSION@
 tarname = @PACKAGE_TARNAME@
-libname = $(package).a
+libname = lib$(package).a
 
 # Prefix-specific substitution variables
 prefix = @prefix@
@@ -40,7 +40,7 @@ lib = $(libdir)/$(libname)
 LDFLAGS += -L$(libdir) -llifehash
 
 $(lib):
-	cd $(libdir) && $(MAKE) $(libname)
+	cd $(libdir) && $(MAKE) lib
 
 test: $(lib) $(TEST_OBJS)
 testc: $(lib) $(TESTC_OBJS)
