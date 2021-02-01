@@ -1,0 +1,123 @@
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
+
+# Prefix-specific substitution variables
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+
+# VPATH-specific substitution variables
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+COMPILER = g++
+
+libname = liblifehash.a
+
+.PHONY: all liblifehash
+all liblifehash: $(libname)
+
+OBJS = \
+	bit-aggregator.o \
+	bit-enumerator.o \
+	cell-grid.o \
+	color.o \
+	color-func.o \
+	color-grid.o \
+	format-utils.o \
+	gradients.o \
+	hsb-color.o \
+	lifehash.o \
+	memzero.o \
+	patterns.o \
+	point.o \
+	sha256.o
+
+bit-aggregator.o: bit-aggregator.hpp
+bit-aggregator.hpp: data.hpp
+
+bit-enumerator.o: bit-enumerator.hpp
+bit-enumerator.hpp: data.hpp
+
+cell-grid.o: cell-grid.hpp bit-enumerator.hpp bit-aggregator.hpp
+cell-grid.hpp: data.hpp grid.hpp change-grid.hpp
+
+change-grid.hpp: grid.hpp
+
+color-func.o: color-func.hpp numeric.hpp
+color-func.hpp: color.hpp
+
+color-grid.o: color-grid.hpp
+color-grid.hpp: frac-grid.hpp patterns.hpp color-func.hpp
+
+color.o: color.hpp hsb-color.hpp
+color.hpp: numeric.hpp
+
+format-utils.o: format-utils.hpp bit-enumerator.hpp
+format-utils.hpp: data.hpp
+
+frac-grid.hpp: cell-grid.hpp
+
+gradients.o: gradients.hpp hsb-color.hpp color.hpp
+gradients.hpp: version.hpp bit-enumerator.hpp color-func.hpp
+
+grid.hpp: color.hpp point.hpp size.hpp
+
+hsb-color.o: color.hpp numeric.hpp
+
+lifehash.o: \
+    cell-grid.hpp \
+    change-grid.hpp \
+    color-grid.hpp \
+    color.hpp \
+    format-utils.hpp \
+    frac-grid.hpp \
+    gradients.hpp \
+    numeric.hpp \
+    patterns.hpp \
+    sha256.hpp \
+    size.hpp
+
+memzero.o: memzero.hpp
+
+patterns.o: patterns.hpp
+patterns.hpp: version.hpp bit-enumerator.hpp
+
+point.o: point.hpp
+
+sha256.o: sha256.hpp memzero.hpp
+sha256.hpp: data.hpp
+
+$(libname): $(OBJS)
+	libtool -static -o $@ $^
+
+.PHONY: clean
+clean:
+	rm -f $(libname) *.o
+	rm -rf *.dSYM
+
+.PHONY: distclean
+distclean: clean
+	rm -f Makefile
+
+HEADERS = lifehash.hpp lifehash.h
+
+libdir = $(DESTDIR)/$(prefix)/lib
+includedir = $(DESTDIR)/$(prefix)/include/$(package)
+
+.PHONY: install
+install: $(libname)
+	install -d $(libdir)
+	install $(libname) $(libdir)
+	install -d $(includedir)
+	install $(HEADERS) $(includedir)
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(libdir)/$(libname)
+	rm -f $(includedir)/lifehash.hpp $(includedir)/lifehash.h
+	-rmdir $(libdir) >/dev/null 2>&1
+	-rmdir $(includedir) >/dev/null 2>&1

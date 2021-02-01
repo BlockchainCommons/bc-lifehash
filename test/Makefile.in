@@ -1,0 +1,61 @@
+# @configure_input@
+#
+#  Makefile.in
+#
+#  Copyright © 2020 by Blockchain Commons, LLC
+#  Licensed under the "BSD-2-Clause Plus Patent License"
+#
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
+libname = $(package).a
+
+# Prefix-specific substitution variables
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+
+# VPATH-specific substitution variables
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+# Terminal colors
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+RESET=`tput sgr0`
+
+CFLAGS += -g -O0
+
+.PHONY: all
+all: testc test
+
+TEST_OBJS = test.o
+TESTC_OBJS = testc.o
+
+libdir = ../src
+lib = $(libdir)/$(libname)
+
+LDFLAGS += -L$(libdir) -llifehash
+
+$(lib):
+	cd $(libdir) && $(MAKE) $(libname)
+
+test: $(lib) $(TEST_OBJS)
+testc: $(lib) $(TESTC_OBJS)
+
+.PHONY: check
+check: test testc
+	./test
+	./testc
+	@echo "$(GREEN)*** ALL TESTS PASSED ***$(RESET)"
+
+.PHONY: clean
+clean:
+	rm -f test testc $(TEST_OBJS) $(TESTC_OBJS)
+	rm -rf *.dSYM
+
+.PHONY: distclean
+distclean: clean
+	rm -f Makefile

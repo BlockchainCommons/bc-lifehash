@@ -1,0 +1,36 @@
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+
+# Prefix-specific substitution variables
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+
+# VPATH-specific substitution variables
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+.PHONY: all clean
+all clean:
+	cd src && $(MAKE) $@
+	cd test && $(MAKE) $@
+
+.PHONY: lib install uninstall
+lib install uninstall:
+	cd src && $(MAKE) $@
+
+.PHONY: test check
+test check: all
+	cd test && $(MAKE) $@
+
+.PHONY: distclean
+distclean:
+	cd src && $(MAKE) $@
+	cd test && $(MAKE) $@
+	rm -f Makefile
+	rm -rf autom4te.cache
+	rm -f autoscan.log
+	rm -f configure.scan configure.status config.log
+	rm -f config.log config.status config.h
+	rm -f *~
