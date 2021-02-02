@@ -34,6 +34,10 @@ We intend this C++/C implementation to become the "canonical" implementation, an
 | Reference | [LifeHash](https://github.com/BlockchainCommons/LifeHash) | Swift
 | Reference | [LifeHash](https://github.com/BlockchainCommons/LifeHash) | Mathematica/Wolfram Language | `version1` only
 
+## Command-Line Tools
+
+[bc-lifehash-cli](https://github.com/BlockchainCommons/bc-lifehash-cli) is a command line tool written in C++ that generates LifeHash images as PNG files.
+
 ## Dependencies
 
 The LifeHash library is self-contained and has no dependencies.
