@@ -8,7 +8,7 @@ TARGET_OPT=
 # TARGET_OPT="-target apple-darwin-x86_64"
 # TARGET_OPT="-target apple-darwin-arm64"
 
-# OPTIMIZE_OPT=--debug -O0
+# OPTIMIZE_OPT="--debug -O0"
 OPTIMIZE_OPT=-O3
 
 export CFLAGS="${TARGET_OPT} ${OPTIMIZE_OPT} -fdiagnostics-absolute-paths"
@@ -16,19 +16,22 @@ export CXXFLAGS="${CFLAGS} -std=c++17 -stdlib=libc++"
 export CPPFLAGS=
 export LDFLAGS="${TARGET_OPT} -lstdc++"
 
-configure()
-(
-    ./configure --prefix=${PREFIX:-/usr/local}
-)
-
 clean()
 (
     make clean
 )
 
+configure()
+(
+    ./configure --prefix=${PREFIX:-/usr/local}
+    clean
+)
+
 build()
 (
     make liblifehash
+    make test
+    dsymutil test/test
 )
 
 check()

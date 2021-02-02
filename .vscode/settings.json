@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "Makefile.in": "makefile",
+        "stdexcept": "cpp"
+    },
+    "[makefile]": {
+        "editor.insertSpaces": false,
+        "editor.detectIndentation": false
+    }
+}
