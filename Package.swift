@@ -39,8 +39,7 @@ let package = Package(
                 "numeric.hpp",
                 "patterns.hpp",
                 "lifehash.hpp"
-            ],
-            publicHeadersPath: "SwiftPublicHeaders"
+            ]
         )
     ],
     cxxLanguageStandard: .cxx11

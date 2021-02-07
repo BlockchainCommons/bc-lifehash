@@ -19,8 +19,8 @@ class Grid {
 
    protected:
     const std::size_t capacity;
-    const std::size_t maxX;
-    const std::size_t maxY;
+    const int maxX;
+    const int maxY;
 
     std::vector<T> storage;
 
@@ -31,7 +31,7 @@ class Grid {
    private:
     inline size_t offset(const Point& p) const { return p.y * size.width + p.x; }
 
-    inline static std::size_t circularIndex(std::size_t index, std::size_t modulus) { return (index + modulus) % modulus; }
+    inline static int circularIndex(int index, int modulus) { return (index + modulus) % modulus; }
 
    public:
     void set_all(const T& value) { std::fill_n(storage.begin(), capacity, value); }
@@ -41,8 +41,8 @@ class Grid {
     inline const T get_value(const Point& p) const { return storage[offset(p)]; }
 
     void for_all(const std::function<void(const Point&)>& f) {
-        for (size_t y = 0; y <= maxY; y++) {
-            for (size_t x = 0; x <= maxX; x++) {
+        for (int y = 0; y <= maxY; y++) {
+            for (int x = 0; x <= maxX; x++) {
                 f(Point(x, y));
             }
         }

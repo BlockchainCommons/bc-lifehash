@@ -5,10 +5,10 @@
 
 // A struct representing an integer 2-dimensional size.
 struct Size {
-    std::size_t width;
-    std::size_t height;
+    int width;
+    int height;
 
-    Size(std::size_t width, std::size_t height) : width(width), height(height) {}
+    Size(int width, int height) : width(width), height(height) {}
 };
 
 #endif

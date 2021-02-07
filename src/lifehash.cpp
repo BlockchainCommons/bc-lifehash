@@ -70,7 +70,7 @@ Image make_from_fingerprint(const std::vector<uint8_t>& fingerprint, Version ver
         throw domain_error("Fingerprint must be 32 bytes.");
     }
 
-    size_t length;
+    int length;
     size_t max_generations;
 
     switch (version) {
