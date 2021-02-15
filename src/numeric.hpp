@@ -2,6 +2,7 @@
 #define LIFEHASH_NUMERIC_HPP
 
 #include <math.h>
+#include "stdint.h"
 
 // Interpolate `t` from [0..1] to [a..b].
 inline double lerp_to(double toA, double toB, double t) { return t * (toB - toA) + toA; }

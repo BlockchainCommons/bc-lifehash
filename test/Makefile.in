@@ -37,7 +37,7 @@ TESTC_OBJS = testc.o
 libdir = ../src
 lib = $(libdir)/$(libname)
 
-LDFLAGS += -L$(libdir) -llifehash
+LDLIBS += -L$(libdir) -llifehash -lstdc++ -lm
 
 $(lib):
 	cd $(libdir) && $(MAKE) lib

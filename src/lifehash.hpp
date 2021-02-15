@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <stdint.h>
+#include <string>
 
 //
 // This is the C++ interface to liblifehash. The C interface is in "lifehash.h".
