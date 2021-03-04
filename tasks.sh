@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/zsh
 
 PROJ_ROOT=${PWD}
 SRC_ROOT=${PROJ_ROOT}/src
