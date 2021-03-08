@@ -1,6 +1,7 @@
 #include "cell-grid.hpp"
 #include "bit-enumerator.hpp"
 #include "bit-aggregator.hpp"
+#include <assert.h>
 
 CellGrid::CellGrid(const Size& size)  : Grid(size) {}
 

@@ -1,4 +1,4 @@
-#!zsh
+#!/bin/zsh
 
 PROJ_ROOT=${PWD}
 SRC_ROOT=${PROJ_ROOT}/src
@@ -11,10 +11,18 @@ TARGET_OPT=
 # OPTIMIZE_OPT="--debug -O0"
 OPTIMIZE_OPT=-O3
 
-export CFLAGS="${TARGET_OPT} ${OPTIMIZE_OPT} -fdiagnostics-absolute-paths"
-export CXXFLAGS="${CFLAGS} -std=c++17 -stdlib=libc++"
-export CPPFLAGS=
-export LDFLAGS="${TARGET_OPT} -lstdc++"
+
+if [[ "$OSTYPE" == "linux"* ]]; then
+    export CFLAGS="${TARGET_OPT} ${OPTIMIZE_OPT}"
+    export CXXFLAGS="${CFLAGS} -std=c++17"
+    export CPPFLAGS=
+    export LDFLAGS="${TARGET_OPT}"
+else
+    export CFLAGS="${TARGET_OPT} ${OPTIMIZE_OPT} -fdiagnostics-absolute-paths"
+    export CXXFLAGS="${CFLAGS} -std=c++17 -stdlib=libc++"
+    export CPPFLAGS=
+    export LDFLAGS="${TARGET_OPT} -lstdc++"
+fi
 
 clean()
 (

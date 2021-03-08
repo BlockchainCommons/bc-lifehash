@@ -91,8 +91,15 @@ point.o: point.hpp
 sha256.o: sha256.hpp memzero.hpp
 sha256.hpp: data.hpp
 
+
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+$(libname): $(OBJS)
+	ar rcs -o $@ $^
+else
 $(libname): $(OBJS)
 	libtool -static -o $@ $^
+endif
 
 .PHONY: clean
 clean:

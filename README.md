@@ -49,6 +49,12 @@ $ ./build.sh
 $ sudo make install
 ```
 
+*Note:* If on Linux, you'll have to install `zsh` beforehand:
+
+```bash
+$ sudo apt-get install zsh
+```
+
 ## Use
 
 1. Link against `liblifehash.a`.
