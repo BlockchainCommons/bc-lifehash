@@ -5,6 +5,9 @@
 #include <functional>
 #include <vector>
 
+namespace LifeHash
+{
+
 // A function that takes a fraction [0..1] and returns a color along a gradient.
 typedef std::function<Color(double)> ColorFunc;
 
@@ -16,5 +19,7 @@ ColorFunc blend(const Color& color1, const Color& color2);
 
 // Returns a color function that blends through each of the given colors at equal intervals.
 ColorFunc blend(const std::vector<Color>& colors);
+
+} // namespace LifeHash
 
 #endif

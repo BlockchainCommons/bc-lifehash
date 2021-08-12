@@ -48,6 +48,9 @@
 // Adapted from
 // https://github.com/jedisct1/libsodium/blob/1647f0d53ae0e370378a9195477e3df0a792408f/src/libsodium/sodium/utils.c#L102-L130
 
+namespace LifeHash
+{
+
 void memzero(void *const pnt, const size_t len) {
 #ifdef _WIN32
   SecureZeroMemory(pnt, len);
@@ -82,3 +85,5 @@ void memzero(void *const pnt, const size_t len) {
   __asm__ __volatile__("" : : "r"(pnt_) : "memory");
 #endif
 }
+
+} // namespace LifeHash

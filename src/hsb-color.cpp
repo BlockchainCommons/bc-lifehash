@@ -7,6 +7,9 @@
 #include "color.hpp"
 #include "numeric.hpp"
 
+namespace LifeHash
+{
+
 HSBColor::HSBColor(const Color &color) {
     auto r = color.r;
     auto g = color.g;
@@ -99,3 +102,5 @@ Color HSBColor::color() const {
 
     return Color(red, green, blue);
 }
+
+} // namespace LifeHash

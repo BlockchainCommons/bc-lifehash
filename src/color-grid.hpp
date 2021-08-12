@@ -7,6 +7,9 @@
 #include "frac-grid.hpp"
 #include "patterns.hpp"
 
+namespace LifeHash
+{
+
 // A class that takes a grayscale grid and applies color and
 // symmetery to it to yield the finished LifeHash.
 class ColorGrid : public Grid<Color> {
@@ -31,5 +34,7 @@ class ColorGrid : public Grid<Color> {
     static std::vector<Transform> pinwheel_transforms;
     static std::vector<Transform> fiducial_transforms;
 };
+
+} // namespace LifeHash
 
 #endif

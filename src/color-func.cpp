@@ -1,6 +1,9 @@
 #include "color-func.hpp"
 #include "numeric.hpp"
 
+namespace LifeHash
+{
+
 ColorFunc reverse(ColorFunc c) {
     return [=](double t) { return c(1 - t); };
 }
@@ -40,3 +43,5 @@ ColorFunc blend(const std::vector<Color>& colors) {
             break;
     }
 }
+
+} // namespace LifeHash

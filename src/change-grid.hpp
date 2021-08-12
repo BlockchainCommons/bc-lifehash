@@ -3,6 +3,9 @@
 
 #include "grid.hpp"
 
+namespace LifeHash
+{
+
 // A grid used to optimize the running of Conway's Game of Life by keeping
 // track of cells that need consideration in the next generation, which
 // allows the pruning of cells that don't need consideration.
@@ -18,5 +21,7 @@ class ChangeGrid : public Grid<bool> {
 
     virtual Color color_for_value(const bool& value) const { return value ? Color::red : Color::blue; }
 };
+
+} // namespace LifeHash
 
 #endif

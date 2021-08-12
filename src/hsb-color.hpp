@@ -1,6 +1,9 @@
 #ifndef LIFEHASH_HSB_COLOR_HPP
 #define LIFEHASH_HSB_COLOR_HPP
 
+namespace LifeHash
+{
+
 struct Color;
 
 // A struct representing a color in the HSB space.
@@ -16,5 +19,7 @@ struct HSBColor {
 
     Color color() const;
 };
+
+} // namespace LifeHash
 
 #endif

@@ -1,6 +1,7 @@
 #include "patterns.hpp"
 
-using namespace LifeHash;
+namespace LifeHash
+{
 
 Pattern select_pattern(BitEnumerator& entropy, Version version) {
     switch(version) {
@@ -11,3 +12,5 @@ Pattern select_pattern(BitEnumerator& entropy, Version version) {
             return entropy.next() ? Pattern::snowflake : Pattern::pinwheel;
     }
 }
+
+} // namespace LifeHash

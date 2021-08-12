@@ -4,6 +4,9 @@
 #include <math.h>
 #include "stdint.h"
 
+namespace LifeHash
+{
+
 // Interpolate `t` from [0..1] to [a..b].
 inline double lerp_to(double toA, double toB, double t) { return t * (toB - toA) + toA; }
 
@@ -31,5 +34,7 @@ inline double clamped(double n) { return max(min(n, 1), 0); }
 // Return `dividend` MODULO `divisor` where `dividend` can be negative,
 // but the result is always non-negative.
 inline double modulo(double dividend, double divisor) { return fmodf(fmodf(dividend, divisor) + divisor, divisor); }
+
+} // namespace LifeHash
 
 #endif
