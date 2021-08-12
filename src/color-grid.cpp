@@ -52,6 +52,8 @@ ColorGrid::ColorGrid(const FracGrid& frac_grid, ColorFunc gradient, Pattern patt
                 return pinwheel_transforms;
             case Pattern::fiducial:
                 return fiducial_transforms;
+            default:
+                return vector<Transform>();
         }
     }();
 
