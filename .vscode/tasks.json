@@ -11,8 +11,8 @@
             "label": "Build",
             "type": "shell",
             "command": "(source tasks.sh && build)",
-            "problemMatcher": { 
-                "base": "$gcc", 
+            "problemMatcher": {
+                "base": "$gcc",
                 "fileLocation": [
                     "absolute"
                 ]
@@ -20,6 +20,17 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "(source tasks.sh && check)",
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "absolute"
+                ]
             }
         },
         {
