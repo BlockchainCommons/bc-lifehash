@@ -3,6 +3,9 @@
 #include "bit-aggregator.hpp"
 #include <assert.h>
 
+namespace LifeHash
+{
+
 CellGrid::CellGrid(const Size& size)  : Grid(size) {}
 
 Data CellGrid::data() const {
@@ -23,3 +26,5 @@ void CellGrid::set_data(const Data& data) {
     });
     assert(i == storage.end());
 }
+
+} // namespace LifeHash

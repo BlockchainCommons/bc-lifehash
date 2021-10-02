@@ -1,5 +1,8 @@
 #include "bit-aggregator.hpp"
 
+namespace LifeHash
+{
+
 void BitAggregator::append(bool bit) {
     if (bitMask == 0) {
         bitMask = 0x80;
@@ -16,3 +19,5 @@ void BitAggregator::append(bool bit) {
 Data BitAggregator::data() const {
     return _data;
 }
+
+} // namespace LifeHash

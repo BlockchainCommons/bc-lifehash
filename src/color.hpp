@@ -3,6 +3,9 @@
 
 #include "numeric.hpp"
 
+namespace LifeHash
+{
+
 struct HSBColor;
 
 // A struct representing a color.
@@ -35,5 +38,7 @@ struct Color {
 
     double luminance() const;
 };
+
+} // namespace LifeHash
 
 #endif

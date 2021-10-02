@@ -4,6 +4,9 @@
 
 using namespace std;
 
+namespace LifeHash
+{
+
 const string to_hex(const Data& data) {
     auto hex = "0123456789abcdef";
     string result;
@@ -22,3 +25,5 @@ const string to_binary(const Data& data) {
     e.for_all([&](bool b) { result.push_back(b ? '1' : '0'); });
     return result;
 }
+
+} // namespace LifeHash

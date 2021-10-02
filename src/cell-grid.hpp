@@ -5,6 +5,9 @@
 #include "data.hpp"
 #include "grid.hpp"
 
+namespace LifeHash
+{
+
 // A class that holds an array of boolean cells and that is
 // capable of running Conway's Game of Life to produce the
 // next generation.
@@ -60,5 +63,7 @@ class CellGrid : public Grid<bool> {
 
     virtual Color color_for_value(const bool& value) const { return value ? Color::white : Color::black; }
 };
+
+} // namespace LifeHash
 
 #endif

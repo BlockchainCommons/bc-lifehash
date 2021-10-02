@@ -2,6 +2,9 @@
 
 #include <stdexcept>
 
+namespace LifeHash
+{
+
 BitEnumerator::BitEnumerator(const Data& data) : data(data) {}
 
 bool BitEnumerator::has_next() const { return mask != 0 || index != data.size() - 1; }
@@ -60,3 +63,5 @@ int BitEnumerator::next_uint16() {
 }
 
 double BitEnumerator::next_frac() { return next_uint16() / 65535.0; }
+
+} // namespace LifeHash

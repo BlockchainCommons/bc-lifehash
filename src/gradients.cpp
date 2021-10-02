@@ -5,8 +5,10 @@
 #include "color.hpp"
 #include "hsb-color.hpp"
 
-using namespace LifeHash;
 using namespace std;
+
+namespace LifeHash
+{
 
 static ColorFunc grayscale = blend(Color::black, Color::white);
 
@@ -330,3 +332,5 @@ ColorFunc select_gradient(BitEnumerator& entropy, Version version) {
     }
     return grayscale;
 }
+
+} // namespace LifeHash

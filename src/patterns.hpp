@@ -4,6 +4,9 @@
 #include "version.hpp"
 #include "bit-enumerator.hpp"
 
+namespace LifeHash
+{
+
 // The symmetries used by LifeHash
 enum class Pattern {
     snowflake, // Mirror around central axes.
@@ -14,5 +17,7 @@ enum class Pattern {
 // A function that takes a deterministic source of bits and selects a pattern
 // used to add symmetry to a a particular LifeHash version.
 Pattern select_pattern(BitEnumerator& entropy, LifeHash::Version version);
+
+} // namespace LifeHash
 
 #endif

@@ -7,6 +7,9 @@
 
 #include "data.hpp"
 
+namespace LifeHash
+{
+
 // A class that takes a block of data and returns its bits singularly or in clusters.
 struct BitEnumerator {
    private:
@@ -31,4 +34,5 @@ struct BitEnumerator {
     }
 };
 
+} //namespace LifeHash
 #endif

@@ -3,6 +3,9 @@
 
 #include <cstddef>
 
+namespace LifeHash
+{
+
 // A struct representing an integer 2-dimensional size.
 struct Size {
     int width;
@@ -10,5 +13,7 @@ struct Size {
 
     Size(int width, int height) : width(width), height(height) {}
 };
+
+} // namespace LifeHash
 
 #endif

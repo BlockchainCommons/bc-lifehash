@@ -4,6 +4,9 @@
 
 #include "hsb-color.hpp"
 
+namespace LifeHash
+{
+
 Color::Color(const HSBColor &hsbColor) {
     Color c = hsbColor.color();
     this->r = c.r;
@@ -42,3 +45,5 @@ Color Color::lerp_to(const Color &other, double t) const {
 Color Color::from_uint8_values(uint8_t r, uint8_t g, uint8_t b) {
     return Color(double(r) / 255, double(g) / 255, double(b) / 255);
 }
+
+} // namespace LifeHash

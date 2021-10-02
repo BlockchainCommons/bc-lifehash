@@ -36,6 +36,9 @@
 
 #include "data.hpp"
 
+namespace LifeHash
+{
+
 #define SHA256_BLOCK_LENGTH 64
 #define SHA256_DIGEST_LENGTH 32
 #define SHA256_DIGEST_STRING_LENGTH (SHA256_DIGEST_LENGTH * 2 + 1)
@@ -77,5 +80,7 @@ char* sha256_Data(const uint8_t*, size_t, char[SHA256_DIGEST_STRING_LENGTH]);
 
 // Calculates the SHA256 digest of the given data.
 const Data sha256(const Data& buf);
+
+} // namespace LifeHash
 
 #endif

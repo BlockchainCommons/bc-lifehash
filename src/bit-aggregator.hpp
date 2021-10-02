@@ -5,6 +5,9 @@
 
 #include "data.hpp"
 
+namespace LifeHash
+{
+
 // A class that accumulates bits fed into it and returns a block of data containing those bits.
 class BitAggregator {
    private:
@@ -15,5 +18,7 @@ class BitAggregator {
     void append(bool bit);
     Data data() const;
 };
+
+} // namespace LifeHash
 
 #endif

@@ -5,6 +5,9 @@
 
 #include "data.hpp"
 
+namespace LifeHash
+{
+
 // Convert the given data to a hex string.
 const std::string to_hex(const Data& data);
 
@@ -13,5 +16,7 @@ const Data to_data(const std::string& utf8);
 
 // Covert the given block of data to a string of 1s and 0s.
 const std::string to_binary(const Data& data);
+
+} // namespace LifeHash
 
 #endif

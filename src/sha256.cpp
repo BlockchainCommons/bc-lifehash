@@ -35,6 +35,9 @@
 
 #include "memzero.hpp"
 
+namespace LifeHash
+{
+
 /*** SHA-256/384/512 Machine Architecture Definitions *****************/
 /*
  * BYTE_ORDER NOTE:
@@ -365,3 +368,5 @@ const Data sha256(const Data& buf) {
     sha256_Raw(buf.data(), buf.size(), digest);
     return Data(digest, digest + SHA256_DIGEST_LENGTH);
 }
+
+} // namespace LifeHash

@@ -9,6 +9,9 @@
 #include "point.hpp"
 #include "size.hpp"
 
+namespace LifeHash
+{
+
 // A class that holds a 2-dimensional grid of values, 
 // and allows the reading, writing, and iteration 
 // through those values.
@@ -75,5 +78,7 @@ class Grid {
         return result;
     }
 };
+
+} // namespace LifeHash
 
 #endif
