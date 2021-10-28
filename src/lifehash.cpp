@@ -16,6 +16,12 @@
 #include "size.hpp"
 #include "hex.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#else
+#define EMSCRIPTEN_KEEPALIVE
+#endif
+
 using namespace std;
 
 namespace LifeHash {
@@ -223,11 +229,13 @@ typedef struct LifeHashImage {
     uint8_t* colors;
 } LifeHashImage;
 
+EMSCRIPTEN_KEEPALIVE
 void lifehash_image_free(LifeHashImage* image) {
     free(image->colors);
     free(image);
 }
 
+EMSCRIPTEN_KEEPALIVE
 static LifeHashImage* lifehash_make_image(const LifeHash::Image& image) {
     auto result_image = static_cast<LifeHashImage*>(malloc(sizeof(LifeHashImage)));
     auto result_colors = static_cast<uint8_t*>(malloc(image.colors.size()));
@@ -239,18 +247,22 @@ static LifeHashImage* lifehash_make_image(const LifeHash::Image& image) {
     return result_image;
 }
 
+EMSCRIPTEN_KEEPALIVE
 LifeHashImage* lifehash_make_from_utf8(const char* s, LifeHashVersion version, size_t module_size) {
     return lifehash_make_image(LifeHash::make_from_utf8(string(s), static_cast<LifeHash::Version>(version), module_size));
 }
 
+EMSCRIPTEN_KEEPALIVE
 LifeHashImage* lifehash_make_from_data(const uint8_t* data, size_t len, LifeHashVersion version, size_t module_size) {
     return lifehash_make_image(LifeHash::make_from_data(std::vector<uint8_t>(data, data + len), static_cast<LifeHash::Version>(version), module_size));
 }
 
+EMSCRIPTEN_KEEPALIVE
 LifeHashImage* lifehash_make_from_digest(const uint8_t* digest, LifeHashVersion version, size_t module_size) {
     return lifehash_make_image(LifeHash::make_from_digest(std::vector<uint8_t>(digest, digest + 32), static_cast<LifeHash::Version>(version), module_size));
 }
 
+EMSCRIPTEN_KEEPALIVE
 char* lifehash_data_to_hex(const uint8_t* data, size_t len) {
     auto d = LifeHash::Data(data, data + len);
     auto hex = LifeHash::data_to_hex(d);
@@ -259,6 +271,7 @@ char* lifehash_data_to_hex(const uint8_t* data, size_t len) {
     return str;
 }
 
+EMSCRIPTEN_KEEPALIVE
 bool lifehash_hex_to_data(const uint8_t* utf8, size_t utf8_len, uint8_t** out, size_t* out_len) {
     try {
         auto hex = std::string(utf8, utf8 + utf8_len);
@@ -273,6 +286,7 @@ bool lifehash_hex_to_data(const uint8_t* utf8, size_t utf8_len, uint8_t** out, s
     }
 }
 
+EMSCRIPTEN_KEEPALIVE
 void lifehash_sha256(const uint8_t* data, size_t len, uint8_t digest[SHA256_DIGEST_LENGTH]) {
     LifeHash::sha256_Raw(data, len, digest);
 }
