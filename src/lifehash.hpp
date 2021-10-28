@@ -30,17 +30,17 @@ struct Image {
 // Make a LifeHash from a UTF-8 string, which may be of any length.
 // The caller is responsible to ensure that the string has undergone any
 // necessary Unicode normalization in order to produce consistent results.
-Image make_from_utf8(const std::string& s, Version version = Version::version2, size_t module_size = 1);
+Image make_from_utf8(const std::string& s, Version version = Version::version2, size_t module_size = 1, bool has_alpha = false);
 
 // Make a LifeHash from given data, which may be of any size.
-Image make_from_data(const std::vector<uint8_t>& data, Version version = Version::version2, size_t module_size = 1);
+Image make_from_data(const std::vector<uint8_t>& data, Version version = Version::version2, size_t module_size = 1, bool has_alpha = false);
 
 // Make a LifeHash from the SHA256 digest of some other data.
 // The digest must be exactly 32 pseudorandom bytes. This is the base
 // LifeHash creation algorithm, but if you don't already have a SHA256 hash of
 // some data, then you should access it by calling `make_from_data()`. If you
 // are starting with a UTF-8 string, call `make_from_utf8()`.
-Image make_from_digest(const std::vector<uint8_t>& digest, Version version = Version::version2, size_t module_size = 1);
+Image make_from_digest(const std::vector<uint8_t>& digest, Version version = Version::version2, size_t module_size = 1, bool has_alpha = false);
 
 // Convert the given data to hexadecimal.
 std::string data_to_hex(const std::vector<uint8_t>& in);

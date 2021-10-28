@@ -32,18 +32,19 @@ struct Image {
     std::vector<uint8_t> colors;
 };
 
-Image make_from_utf8(const std::string& s, Version version, size_t module_size);
-Image make_from_data(const std::vector<uint8_t>& data, Version version, size_t module_size);
-Image make_from_digest(const std::vector<uint8_t>& digest, Version version, size_t module_size);
+Image make_from_utf8(const std::string& s, Version version, size_t module_size, bool has_alpha);
+Image make_from_data(const std::vector<uint8_t>& data, Version version, size_t module_size, bool has_alpha);
+Image make_from_digest(const std::vector<uint8_t>& digest, Version version, size_t module_size, bool has_alpha);
 
-static Image make_image(size_t width, size_t height, const std::vector<double>& floatColors, size_t module_size) {
+static Image make_image(size_t width, size_t height, const std::vector<double>& floatColors, size_t module_size, bool has_alpha) {
     if (module_size == 0) {
         throw domain_error("Invalid module size.");
     }
 
     auto scaled_width = width * module_size;
     auto scaled_height = height * module_size;
-    auto scaled_capacity = scaled_width * scaled_height * 3;
+    auto result_components = has_alpha ? 4 : 3;
+    auto scaled_capacity = scaled_width * scaled_height * result_components;
 
     std::vector<uint8_t> result_colors(scaled_capacity);
     for (size_t target_y = 0; target_y < scaled_width; target_y++) {
@@ -52,27 +53,30 @@ static Image make_image(size_t width, size_t height, const std::vector<double>& 
             auto source_y = target_y / module_size;
             auto source_offset = (source_y * width + source_x) * 3;
 
-            auto target_offset = (target_y * scaled_width + target_x) * 3;
+            auto target_offset = (target_y * scaled_width + target_x) * result_components;
 
             result_colors[target_offset] = clamped(floatColors[source_offset]) * 255;
             result_colors[target_offset + 1] = clamped(floatColors[source_offset + 1]) * 255;
             result_colors[target_offset + 2] = clamped(floatColors[source_offset + 2]) * 255;
+            if(has_alpha) {
+                result_colors[target_offset + 3] = 255;
+            }
         }
     }
 
     return {scaled_width, scaled_height, result_colors};
 }
 
-Image make_from_utf8(const std::string& s, Version version, size_t module_size) {
-    return make_from_data(to_data(s), version, module_size);
+Image make_from_utf8(const std::string& s, Version version, size_t module_size, bool has_alpha) {
+    return make_from_data(to_data(s), version, module_size, has_alpha);
 }
 
-Image make_from_data(const std::vector<uint8_t>& data, Version version, size_t module_size) {
+Image make_from_data(const std::vector<uint8_t>& data, Version version, size_t module_size, bool has_alpha) {
     auto digest = sha256(data);
-    return make_from_digest(digest, version, module_size);
+    return make_from_digest(digest, version, module_size, has_alpha);
 }
 
-Image make_from_digest(const std::vector<uint8_t>& digest, Version version, size_t module_size) {
+Image make_from_digest(const std::vector<uint8_t>& digest, Version version, size_t module_size, bool has_alpha) {
     if (digest.size() != 32) {
         throw domain_error("Digest must be 32 bytes.");
     }
@@ -196,7 +200,7 @@ Image make_from_digest(const std::vector<uint8_t>& digest, Version version, size
     auto pattern = select_pattern(entropy, version);
     auto color_grid = ColorGrid(frac_grid, gradient, pattern);
 
-    auto image = make_image(color_grid.size.width, color_grid.size.height, color_grid.colors(), module_size);
+    auto image = make_image(color_grid.size.width, color_grid.size.height, color_grid.colors(), module_size, has_alpha);
 
     delete current_cell_grid;
     delete next_cell_grid;
@@ -248,18 +252,18 @@ static LifeHashImage* lifehash_make_image(const LifeHash::Image& image) {
 }
 
 EMSCRIPTEN_KEEPALIVE
-LifeHashImage* lifehash_make_from_utf8(const char* s, LifeHashVersion version, size_t module_size) {
-    return lifehash_make_image(LifeHash::make_from_utf8(string(s), static_cast<LifeHash::Version>(version), module_size));
+LifeHashImage* lifehash_make_from_utf8(const char* s, LifeHashVersion version, size_t module_size, bool has_alpha) {
+    return lifehash_make_image(LifeHash::make_from_utf8(string(s), static_cast<LifeHash::Version>(version), module_size, has_alpha));
 }
 
 EMSCRIPTEN_KEEPALIVE
-LifeHashImage* lifehash_make_from_data(const uint8_t* data, size_t len, LifeHashVersion version, size_t module_size) {
-    return lifehash_make_image(LifeHash::make_from_data(std::vector<uint8_t>(data, data + len), static_cast<LifeHash::Version>(version), module_size));
+LifeHashImage* lifehash_make_from_data(const uint8_t* data, size_t len, LifeHashVersion version, size_t module_size, bool has_alpha) {
+    return lifehash_make_image(LifeHash::make_from_data(std::vector<uint8_t>(data, data + len), static_cast<LifeHash::Version>(version), module_size, has_alpha));
 }
 
 EMSCRIPTEN_KEEPALIVE
-LifeHashImage* lifehash_make_from_digest(const uint8_t* digest, LifeHashVersion version, size_t module_size) {
-    return lifehash_make_image(LifeHash::make_from_digest(std::vector<uint8_t>(digest, digest + 32), static_cast<LifeHash::Version>(version), module_size));
+LifeHashImage* lifehash_make_from_digest(const uint8_t* digest, LifeHashVersion version, size_t module_size, bool has_alpha) {
+    return lifehash_make_image(LifeHash::make_from_digest(std::vector<uint8_t>(digest, digest + 32), static_cast<LifeHash::Version>(version), module_size, has_alpha));
 }
 
 EMSCRIPTEN_KEEPALIVE

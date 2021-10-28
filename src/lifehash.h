@@ -38,13 +38,13 @@ void lifehash_image_free(LifeHashImage* image);
 //
 // The caller is responsible to release the returned image by calling
 // `lifehash_image_free()`.
-LifeHashImage* lifehash_make_from_utf8(const char* s, LifeHashVersion version, size_t module_size);
+LifeHashImage* lifehash_make_from_utf8(const char* s, LifeHashVersion version, size_t module_size, bool has_alpha);
 
 // Make a LifeHash from given data, which may be of any size.
 //
 // The caller is responsible to release the returned image by calling
 // `lifehash_image_free()`.
-LifeHashImage* lifehash_make_from_data(const uint8_t* data, size_t len, LifeHashVersion version, size_t module_size);
+LifeHashImage* lifehash_make_from_data(const uint8_t* data, size_t len, LifeHashVersion version, size_t module_size, bool has_alpha);
 
 // Make a LifeHash from the SHA256 digest of some other data.
 // The digest must be exactly 32 pseudorandom bytes. This is the base
@@ -54,7 +54,7 @@ LifeHashImage* lifehash_make_from_data(const uint8_t* data, size_t len, LifeHash
 //
 // The caller is responsible to release the returned image by calling
 // `lifehash_image_free()`.
-LifeHashImage* lifehash_make_from_digest(const uint8_t* digest, LifeHashVersion version, size_t module_size);
+LifeHashImage* lifehash_make_from_digest(const uint8_t* digest, LifeHashVersion version, size_t module_size, bool has_alpha);
 
 // Convert the given data to hexadecimal.
 // The caller is responsible to release the returned string by calling `free()`.
