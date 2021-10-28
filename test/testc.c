@@ -29,8 +29,18 @@ static void test_hex() {
     free(data2);
 }
 
+static void test_digest() {
+    char* s = "Hello";
+    uint8_t digest[32];
+    lifehash_sha256(s, strlen(s), digest);
+    char* hex = lifehash_data_to_hex(digest, 32);
+    assert(strcmp(hex, "185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969") == 0);
+    free(hex);
+}
+
 int main() {
     test_lifehash();
     test_hex();
+    test_digest();
     return 0;
 }

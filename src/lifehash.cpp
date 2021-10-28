@@ -273,4 +273,8 @@ bool lifehash_hex_to_data(const uint8_t* utf8, size_t utf8_len, uint8_t** out, s
     }
 }
 
+void lifehash_sha256(const uint8_t* data, size_t len, uint8_t digest[SHA256_DIGEST_LENGTH]) {
+    LifeHash::sha256_Raw(data, len, digest);
+}
+
 }

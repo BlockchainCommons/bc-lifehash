@@ -49,6 +49,9 @@ std::string data_to_hex(const std::vector<uint8_t>& in);
 // Throws if the input string is invalid hexadecimal.
 std::vector<uint8_t> hex_to_data(const std::string& hex);
 
+// Calculates the SHA256 digest of the given data.
+const std::vector<uint8_t> sha256(const std::vector<uint8_t>& buf);
+
 }
 
 #endif

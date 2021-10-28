@@ -65,6 +65,9 @@ char* lifehash_data_to_hex(const uint8_t* data, size_t len);
 // When successful, the caller is responsible to release the returned data by calling `free()`.
 bool lifehash_hex_to_data(const uint8_t* utf8, size_t utf8_len, uint8_t** out, size_t* out_len);
 
+// Calculates the SHA256 digest of the given data.
+void lifehash_sha256(const uint8_t* data, size_t len, uint8_t digest[32]);
+
 #ifdef __cplusplus
 }
 #endif

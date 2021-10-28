@@ -19,8 +19,17 @@ static void test_hex() {
     assert(LifeHash::hex_to_data("00010203ff") == std::vector<uint8_t>({0x00, 0x01, 0x02, 0x03, 0xff}));
 }
 
+static void test_digest() {
+    std::string s = "Hello";
+    auto data = std::vector<uint8_t>(s.begin(), s.end());
+    auto digest = LifeHash::sha256(data);
+    auto hex = LifeHash::data_to_hex(digest);
+    assert(hex == "185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969");
+}
+
 int main() {
     test_lifehash();
     test_hex();
+    test_digest();
     return 0;
 }
