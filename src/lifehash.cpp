@@ -14,6 +14,7 @@
 #include "patterns.hpp"
 #include "sha256.hpp"
 #include "size.hpp"
+#include "hex.hpp"
 
 using namespace std;
 
@@ -27,7 +28,7 @@ struct Image {
 
 Image make_from_utf8(const std::string& s, Version version, size_t module_size);
 Image make_from_data(const std::vector<uint8_t>& data, Version version, size_t module_size);
-Image make_from_fingerprint(const std::vector<uint8_t>& fingerprint, Version version, size_t module_size);
+Image make_from_digest(const std::vector<uint8_t>& digest, Version version, size_t module_size);
 
 static Image make_image(size_t width, size_t height, const std::vector<double>& floatColors, size_t module_size) {
     if (module_size == 0) {
@@ -61,13 +62,13 @@ Image make_from_utf8(const std::string& s, Version version, size_t module_size) 
 }
 
 Image make_from_data(const std::vector<uint8_t>& data, Version version, size_t module_size) {
-    auto fingerprint = sha256(data);
-    return make_from_fingerprint(fingerprint, version, module_size);
+    auto digest = sha256(data);
+    return make_from_digest(digest, version, module_size);
 }
 
-Image make_from_fingerprint(const std::vector<uint8_t>& fingerprint, Version version, size_t module_size) {
-    if (fingerprint.size() != 32) {
-        throw domain_error("Fingerprint must be 32 bytes.");
+Image make_from_digest(const std::vector<uint8_t>& digest, Version version, size_t module_size) {
+    if (digest.size() != 32) {
+        throw domain_error("Digest must be 32 bytes.");
     }
 
     int length;
@@ -102,16 +103,16 @@ Image make_from_fingerprint(const std::vector<uint8_t>& fingerprint, Version ver
 
     switch (version) {
         case Version::version1:
-            next_cell_grid->set_data(fingerprint);
+            next_cell_grid->set_data(digest);
             break;
         case Version::version2:
             // Ensure that .version2 in no way resembles .version1
-            next_cell_grid->set_data(sha256(fingerprint));
+            next_cell_grid->set_data(sha256(digest));
             break;
         case Version::detailed:
         case Version::fiducial:
         case Version::grayscale_fiducial:
-            auto digest1 = fingerprint;
+            auto digest1 = digest;
             // Ensure that grayscale fiducials in no way resemble the regular color fiducials
             if (version == Version::grayscale_fiducial) {
                 digest1 = sha256(digest1);
@@ -119,11 +120,11 @@ Image make_from_fingerprint(const std::vector<uint8_t>& fingerprint, Version ver
             auto digest2 = sha256(digest1);
             auto digest3 = sha256(digest2);
             auto digest4 = sha256(digest3);
-            auto digest = digest1;
-            digest.insert(digest.end(), digest2.begin(), digest2.end());
-            digest.insert(digest.end(), digest3.begin(), digest3.end());
-            digest.insert(digest.end(), digest4.begin(), digest4.end());
-            next_cell_grid->set_data(digest);
+            auto digest_final = digest1;
+            digest_final.insert(digest_final.end(), digest2.begin(), digest2.end());
+            digest_final.insert(digest_final.end(), digest3.begin(), digest3.end());
+            digest_final.insert(digest_final.end(), digest4.begin(), digest4.end());
+            next_cell_grid->set_data(digest_final);
             break;
     }
 
@@ -170,7 +171,7 @@ Image make_from_fingerprint(const std::vector<uint8_t>& fingerprint, Version ver
         });
     }
 
-    auto entropy = BitEnumerator(fingerprint);
+    auto entropy = BitEnumerator(digest);
 
     switch (version) {
         case Version::detailed:
@@ -246,8 +247,30 @@ LifeHashImage* lifehash_make_from_data(const uint8_t* data, size_t len, LifeHash
     return lifehash_make_image(LifeHash::make_from_data(std::vector<uint8_t>(data, data + len), static_cast<LifeHash::Version>(version), module_size));
 }
 
-LifeHashImage* lifehash_make_from_fingerprint(const uint8_t* fingerprint, LifeHashVersion version, size_t module_size) {
-    return lifehash_make_image(LifeHash::make_from_fingerprint(std::vector<uint8_t>(fingerprint, fingerprint + 32), static_cast<LifeHash::Version>(version), module_size));
+LifeHashImage* lifehash_make_from_digest(const uint8_t* digest, LifeHashVersion version, size_t module_size) {
+    return lifehash_make_image(LifeHash::make_from_digest(std::vector<uint8_t>(digest, digest + 32), static_cast<LifeHash::Version>(version), module_size));
+}
+
+char* lifehash_data_to_hex(const uint8_t* data, size_t len) {
+    auto d = LifeHash::Data(data, data + len);
+    auto hex = LifeHash::data_to_hex(d);
+    auto str = (char*)malloc(hex.length() + 1);
+    strcpy(str, hex.c_str());
+    return str;
+}
+
+bool lifehash_hex_to_data(const uint8_t* utf8, size_t utf8_len, uint8_t** out, size_t* out_len) {
+    try {
+        auto hex = std::string(utf8, utf8 + utf8_len);
+        auto data = LifeHash::hex_to_data(hex);
+        auto buf = (uint8_t*)malloc(data.size());
+        memcpy(buf, &data[0], data.size());
+        *out = buf;
+        *out_len = data.size();
+        return true;
+    } catch(...) {
+        return false;
+    }
 }
 
 }

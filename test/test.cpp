@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-int main() {
+static void test_lifehash() {
     auto image = LifeHash::make_from_utf8("Hello");
     assert(image.width == 32);
     assert(image.height == 32);
@@ -12,5 +12,15 @@ int main() {
     for(auto i = 0; i < expected.size(); i++) {
         assert(image.colors[i] == expected[i]);
     }
+}
+
+static void test_hex() {
+    assert(LifeHash::data_to_hex({0x00, 0x01, 0x02, 0x03, 0xff}) == "00010203ff");
+    assert(LifeHash::hex_to_data("00010203ff") == std::vector<uint8_t>({0x00, 0x01, 0x02, 0x03, 0xff}));
+}
+
+int main() {
+    test_lifehash();
+    test_hex();
     return 0;
 }

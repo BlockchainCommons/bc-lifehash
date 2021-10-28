@@ -29,6 +29,7 @@ OBJS = \
 	color-grid.o \
 	format-utils.o \
 	gradients.o \
+    hex.o \
 	hsb-color.o \
 	lifehash.o \
 	memzero.o \
@@ -66,6 +67,8 @@ gradients.hpp: version.hpp bit-enumerator.hpp color-func.hpp
 
 grid.hpp: color.hpp point.hpp size.hpp
 
+hex.o: hex.hpp data.hpp
+
 hsb-color.o: color.hpp numeric.hpp
 
 liblifehash.o: \
@@ -79,7 +82,8 @@ liblifehash.o: \
     numeric.hpp \
     patterns.hpp \
     sha256.hpp \
-    size.hpp
+    size.hpp \
+    hex.hpp
 
 memzero.o: memzero.hpp
 

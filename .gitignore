@@ -99,3 +99,4 @@ test/testc
 
 .build/
 .vscode/*.log
+wasm/lib/**
