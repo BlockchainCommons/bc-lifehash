@@ -3,15 +3,31 @@
 Module['onRuntimeInitialized'] = function () {
     Module['makeFromUTF8'] = function(s, version, moduleSize) {
         const utf8 = new TextEncoder().encode(s);
-        const inputPtr = this.malloc(utf8.length);
+        const inputPtr = this.malloc(utf8.length + 1);
         const i = new Uint8Array(HEAPU8.buffer, inputPtr, utf8.length);
         i.set(utf8);
-        const imagePtr = ccall('lifehash_sha256', 'number', ['number', 'number', 'number'], [inputPtr, version, moduleSize]);
+        HEAPU8[inputPtr + utf8.length] = 0;
+        const imagePtr = ccall('lifehash_make_from_utf8', 'number', ['number', 'number', 'number', 'boolean'], [inputPtr, version, moduleSize, true]);
         const imageStruct = new Uint32Array(HEAPU8.buffer, imagePtr, 3);
         const width = imageStruct[0];
         const height = imageStruct[1];
-        const colorsPtr = imageStruct[2];
-        const colors = new Uint8Array(HEAPU8.buffer, colorsPtr, width * height * 3);
+        const inColorsPtr = imageStruct[2];
+        const colorsLength = width * height * 4;
+        const inColors = new Uint8Array(HEAPU8.buffer, inColorsPtr, colorsLength);
+        const outColors = new Uint8ClampedArray(new ArrayBuffer(colorsLength));
+        outColors.set(inColors);
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = width;
+        canvas.height = height;
+        const imageData = context.createImageData(width, height);
+        imageData.data.set(outColors);
+        context.putImageData(imageData, 0, 0);
+        const dataURI = canvas.toDataURL();
+        const image = new Image();
+        image.width = width;
+        image.height = height;
+        image.src = dataURI;
         this.free(inputPtr);
         this.imageFree(imagePtr);
         return image;
