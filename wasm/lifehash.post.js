@@ -1,13 +1,16 @@
 /// <reference types="emscripten" />
 
 Module['onRuntimeInitialized'] = function () {
-    Module['makeFromUTF8'] = function(s, version, moduleSize) {
+    Module['allocString'] = function(s) {
         const utf8 = new TextEncoder().encode(s);
-        const inputPtr = this.malloc(utf8.length + 1);
-        const i = new Uint8Array(HEAPU8.buffer, inputPtr, utf8.length);
+        const sPtr = this.malloc(utf8.length + 1);
+        const i = new Uint8Array(HEAPU8.buffer, sPtr, utf8.length);
         i.set(utf8);
-        HEAPU8[inputPtr + utf8.length] = 0;
-        const imagePtr = ccall('lifehash_make_from_utf8', 'number', ['number', 'number', 'number', 'boolean'], [inputPtr, version, moduleSize, true]);
+        HEAPU8[sPtr + utf8.length] = 0;
+        return sPtr;
+    };
+
+    Module['produceImage'] = function(imagePtr, version) {
         const imageStruct = new Uint32Array(HEAPU8.buffer, imagePtr, 3);
         const width = imageStruct[0];
         const height = imageStruct[1];
@@ -25,13 +28,22 @@ Module['onRuntimeInitialized'] = function () {
         context.putImageData(imageData, 0, 0);
         const dataURI = canvas.toDataURL();
         const image = new Image();
-        image.width = width;
-        image.height = height;
+        const scale = version === 2 ? 0.5 : 1.0;
+        image.width = width * scale;
+        image.height = height * scale;
         image.src = dataURI;
+        return image;
+    }
+
+    Module['makeFromUTF8'] = function(s, version, moduleSize) {
+        const inputPtr = this.allocString(s);
+        const imagePtr = ccall('lifehash_make_from_utf8', 'number', ['number', 'number', 'number', 'boolean'], [inputPtr, version, moduleSize, true]);
+        const image = this.produceImage(imagePtr, version);
         this.free(inputPtr);
         this.imageFree(imagePtr);
         return image;
     }
+
     Module['makeFromData'] = function(data, version, moduleSize) {
 
     }

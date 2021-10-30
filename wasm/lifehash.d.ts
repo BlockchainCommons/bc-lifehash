@@ -1,12 +1,6 @@
 /// <reference types="emscripten" />
 
-export const enum LifeHashVersion {
-    version1,
-    version2,
-    detailed,
-    fiducial,
-    grayscaleFiducial
-}
+import { LifeHashVersion } from './lifehash.types';
 
 export interface LifeHashModule extends EmscriptenModule {
     makeFromUTF8(utf8: string, version: LifeHashVersion, moduleSize: number): HTMLImageElement;

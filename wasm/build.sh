@@ -15,4 +15,4 @@ emcc \
     --post-js lifehash.post.js \
     ../src/*.cpp
 
-cp lifehash.d.ts ./lib/
+cp lifehash.types.ts lifehash.d.ts ./lib/
