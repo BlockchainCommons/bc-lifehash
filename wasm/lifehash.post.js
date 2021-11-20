@@ -1,6 +1,47 @@
 /// <reference types="emscripten" />
 
 Module['onRuntimeInitialized'] = function () {
+
+    Module['makeFromUTF8'] = function(s, version, moduleSize) {
+        const inputPtr = this.allocString(s);
+        const imagePtr = ccall('lifehash_make_from_utf8', 'number', ['number', 'number', 'number', 'boolean'], [inputPtr, version, moduleSize, true]);
+        const image = this.produceImage(imagePtr, version);
+        this.free(inputPtr);
+        this.imageFree(imagePtr);
+        return image;
+    };
+
+    Module['makeFromData'] = function(data, version, moduleSize) {
+        const inputPtr = this.malloc(data.length);
+        const i = new Uint8Array(HEAPU8.buffer, inputPtr, data.length);
+        i.set(data);
+        const imagePtr = ccall('lifehash_make_from_data', 'number', ['number', 'number', 'number', 'number', 'boolean'], [inputPtr, data.length, version, moduleSize, true]);
+        const image = this.produceImage(imagePtr, version);
+        this.free(inputPtr);
+        this.imageFree(imagePtr);
+        return image;
+    };
+
+    Module['makeFromDigest'] = function(digest, version, moduleSize) {
+        if(digest.length !== 32) {
+            throw new Error('Digest must be exactly 32 bytes.');
+        }
+        const inputPtr = this.malloc(digest.length);
+        const i = new Uint8Array(HEAPU8.buffer, inputPtr, digest.length);
+        i.set(digest);
+        const imagePtr = ccall('lifehash_make_from_digest', 'number', ['number', 'number', 'number', 'boolean'], [inputPtr, version, moduleSize, true]);
+        const image = this.produceImage(imagePtr, version);
+        this.free(inputPtr);
+        this.imageFree(imagePtr);
+        return image;
+    };
+
+    Module['malloc'] = cwrap('malloc', 'number', ['number']);
+
+    Module['free'] = cwrap('free', null, ['number']);
+
+    Module['imageFree'] = cwrap('lifehash_image_free', null, ['number']);
+
     Module['allocString'] = function(s) {
         const utf8 = new TextEncoder().encode(s);
         const sPtr = this.malloc(utf8.length + 1);
@@ -33,26 +74,8 @@ Module['onRuntimeInitialized'] = function () {
         image.height = height * scale;
         image.src = dataURI;
         return image;
-    }
+    };
 
-    Module['makeFromUTF8'] = function(s, version, moduleSize) {
-        const inputPtr = this.allocString(s);
-        const imagePtr = ccall('lifehash_make_from_utf8', 'number', ['number', 'number', 'number', 'boolean'], [inputPtr, version, moduleSize, true]);
-        const image = this.produceImage(imagePtr, version);
-        this.free(inputPtr);
-        this.imageFree(imagePtr);
-        return image;
-    }
-
-    Module['makeFromData'] = function(data, version, moduleSize) {
-
-    }
-    Module['makeFromDigest'] = function(digest, version, moduleSize) {
-
-    }
-    Module['free'] = cwrap('free', null, ['number']);
-    Module['malloc'] = cwrap('malloc', 'number', ['number']);
-    Module['imageFree'] = cwrap('lifehash_image_free', null, ['number']);
     Module['sha256'] = function(s) {
         const utf8 = new TextEncoder().encode(s);
         const inputPtr = this.malloc(utf8.length);
@@ -66,6 +89,7 @@ Module['onRuntimeInitialized'] = function () {
         this.free(outputPtr);
         return o;
     };
+
     Module['dataToHex'] = function(data) {
         const inputPtr = this.malloc(data.length);
         const i = new Uint8Array(HEAPU8.buffer, inputPtr, data.length);
@@ -76,6 +100,7 @@ Module['onRuntimeInitialized'] = function () {
         this.free(outputPtr);
         return result;
     };
+
     Module['hexToData'] = function(hex) {
         const utf8 = new TextEncoder().encode(hex);
         const inputPtr = this.malloc(utf8.length);
