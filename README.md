@@ -22,6 +22,8 @@ After the pattern becomes stable (or begins repeating) the resulting history is 
 
 Some bits of the initial hash are then used to deterministically apply symmetry and color to the icon to add beauty and quick recognizability.
 
+See a LifeHash demo at [LifeHash.info](https://lifehash.info/).
+
 ## Notes on This Implementation
 
 We intend this C++/C implementation to become the "canonical" implementation, and to be suitable for binding to other languages such as Java, Python, and cross-compilation into WebAssembly. In order to work from a single main codebase, we also expect this implementation to eventually replace the pure Swift implementation.
