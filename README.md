@@ -45,7 +45,7 @@ We intend this C++/C implementation to become the "canonical" implementation, an
 
 The LifeHash library is self-contained and has no dependencies.
 
-## Installation
+## Installation Instructions
 
 ```bash
 $ ./build.sh
@@ -58,7 +58,7 @@ $ sudo make install
 $ sudo apt-get install zsh
 ```
 
-## Use
+## Usage Instructions
 
 1. Link against `liblifehash.a`.
 2. Include the umbrella header in your code:
