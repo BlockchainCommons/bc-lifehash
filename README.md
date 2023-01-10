@@ -34,6 +34,7 @@ We intend this C++/C implementation to become the "canonical" implementation, an
 |------|------|----------|------|
 | Reference | [bc-lifehash](https://github.com/BlockchainCommons/bc-lifehash) | C++/C
 | Third-Party | [bc-lifehash-python](https://github.com/BlockchainCommons/bc-lifehash-python) | Python | [Cramium](https://cramiumsolutions.com/)
+| Third-Party | [toucan](https://github.com/sparrowwallet/toucan) | Java | [Sparrow Wallet](https://sparrowwallet.com/)
 | Reference | [LifeHash](https://github.com/BlockchainCommons/LifeHash) | Swift
 | Reference | [LifeHash](https://github.com/BlockchainCommons/LifeHash) | Mathematica/Wolfram Language | `version1` only
 
@@ -118,7 +119,7 @@ The output image structure contains the image width and height, and an array of 
 
 ⚠️ **NOTE:** The Mathematica implementation currently only generates `version1` LifeHashes.
 
-![Samples of LifeHash](Art/Samples-0-Mathematica.jpg?raw=true "Samples 0") 
+![Samples of LifeHash](Art/Samples-0-Mathematica.jpg?raw=true "Samples 0")
 
 ### Tips for Presenting LifeHash Images
 
@@ -146,7 +147,7 @@ The best place to talk about Blockchain Commons and its projects is in our GitHu
 
 [**Gordian Developer Community**](https://github.com/BlockchainCommons/Gordian-Developer-Community/discussions). For standards and open-source developers who want to talk about interoperable wallet specifications, please use the Discussions area of the [Gordian Developer Community repo](https://github.com/BlockchainCommons/Gordian-Developer-Community/discussions). This is where you talk about Gordian specifications such as [Gordian Envelope](https://github.com/BlockchainCommons/BCSwiftSecureComponents/blob/master/Docs/00-INTRODUCTION.md), [bc-shamir](https://github.com/BlockchainCommons/bc-shamir), [Sharded Secret Key Reconstruction](https://github.com/BlockchainCommons/bc-sskr), and [bc-ur](https://github.com/BlockchainCommons/bc-ur) as well as the larger [Gordian Architecture](https://github.com/BlockchainCommons/Gordian/blob/master/Docs/Overview-Architecture.md), its [Principles](https://github.com/BlockchainCommons/Gordian#gordian-principles) of independence, privacy, resilience, and openness, and its macro-architectural ideas such as functional partition (including airgapping, the original name of this community).
 
-[**Blockchain Commons Discussions**](https://github.com/BlockchainCommons/Community/discussions). For developers, interns, and patrons of Blockchain Commons, please use the discussions area of the [Community repo](https://github.com/BlockchainCommons/Community) to talk about general Blockchain Commons issues, the intern program, or topics other than those covered by the [Gordian Developer Community](https://github.com/BlockchainCommons/Gordian-Developer-Community/discussions) or the 
+[**Blockchain Commons Discussions**](https://github.com/BlockchainCommons/Community/discussions). For developers, interns, and patrons of Blockchain Commons, please use the discussions area of the [Community repo](https://github.com/BlockchainCommons/Community) to talk about general Blockchain Commons issues, the intern program, or topics other than those covered by the [Gordian Developer Community](https://github.com/BlockchainCommons/Gordian-Developer-Community/discussions) or the
 [Gordian User Community](https://github.com/BlockchainCommons/Gordian/discussions).
 
 ### Other Questions & Problems
