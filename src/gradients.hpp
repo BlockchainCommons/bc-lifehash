@@ -1,6 +1,8 @@
 #ifndef LIFEHASH_GRADIENTS_HPP
 #define LIFEHASH_GRADIENTS_HPP
 
+#include <stdexcept>
+
 #include "version.hpp"
 #include "bit-enumerator.hpp"
 #include "color-func.hpp"
