@@ -33,6 +33,7 @@ We intend this C++/C implementation to become the "canonical" implementation, an
 | Type | Name | Language | Note |
 |------|------|----------|------|
 | Reference | [bc-lifehash](https://github.com/BlockchainCommons/bc-lifehash) | C++/C
+| Third-Party | [lifehash-rs](https://github.com/GalactechsLLC/lifehash-rs) | Rust | [Galactechs LLC](https://github.com/GalactechsLLC)
 | Third-Party | [bc-lifehash-python](https://github.com/BlockchainCommons/bc-lifehash-python) | Python | [Cramium](https://cramiumsolutions.com/)
 | Third-Party | [toucan](https://github.com/sparrowwallet/toucan) | Java | [Sparrow Wallet](https://sparrowwallet.com/)
 | Reference | [LifeHash](https://github.com/BlockchainCommons/LifeHash) | Swift
