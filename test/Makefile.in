@@ -33,6 +33,7 @@ all: testc test
 
 TEST_OBJS = test.o
 TESTC_OBJS = testc.o
+GENTV_OBJS = generate-test-vectors.o
 
 libdir = ../src
 lib = $(libdir)/$(libname)
@@ -44,6 +45,12 @@ $(lib):
 
 test: $(lib) $(TEST_OBJS)
 testc: $(lib) $(TESTC_OBJS)
+generate-test-vectors: $(lib) $(GENTV_OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(GENTV_OBJS) $(lib) -lm
+
+.PHONY: generate-test-vectors-json
+generate-test-vectors-json: generate-test-vectors
+	./generate-test-vectors > test-vectors.json
 
 .PHONY: check
 check: test testc
@@ -53,7 +60,7 @@ check: test testc
 
 .PHONY: clean
 clean:
-	rm -f test testc $(TEST_OBJS) $(TESTC_OBJS)
+	rm -f test testc generate-test-vectors $(TEST_OBJS) $(TESTC_OBJS) $(GENTV_OBJS)
 	rm -rf *.dSYM
 
 .PHONY: distclean
